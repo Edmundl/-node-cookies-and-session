@@ -1,0 +1,30 @@
+1.cookie-存在浏览器，4K，不安全
+   签名，加密
+   
+2.session-存在服务器
+   不能独立存在，基于cookie
+   
+3.操作cookie
+	server.use(cookieParser('签名字符串'));
+	server.use(function(req,res){
+		res.cookie(名字，值，{signed:true});
+		
+		res.cookies['user'];//读取cookie
+		
+		res.clearCookie('名字');
+	});
+4.操作cookieSession
+	var arr=[];
+
+	for(var i=0;i<100000;i++){
+		arr.push('sig_'+Math.random());
+	}
+	
+	server.use(cookieParser('签名字符串'));
+	server.use(funtion(req,res){
+		name:'sess',//名字
+		keys:arr,//签名
+		maxAge:2*1000//有效期
+	});
+	res.session['xxx'];
+	delete res.session;
